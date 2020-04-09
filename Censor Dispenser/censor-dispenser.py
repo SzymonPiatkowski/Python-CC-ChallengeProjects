@@ -1,10 +1,13 @@
 # These are the emails you will be censoring. The open() function is opening the text file that the emails are contained in and the .read() method is allowing us to save their contexts to the following variables:
 import re
 
-email_one = open("email_one.txt", "r").read()
-email_two = open("email_two.txt", "r").read()
-email_three = open("email_three.txt", "r").read()
-email_four = open("email_four.txt", "r").read()
+email_one = open("Censor Dispenser\email_four.txt", "r").read()
+email_two = open("Censor Dispenser\email_four.txt", "r").read()
+email_three = open("Censor Dispenser\email_four.txt", "r").read()
+email_four = open("Censor Dispenser\email_four.txt", "r").read()
+
+proprietary_terms = ["she", "personality matrix", "sense of self", "self-preservation", "learning algorithm", "her", "herself"]
+negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "alarmed", "out of control", "help", "unhappy", "bad", "upset", "awful", "broken", "damage", "damaging", "dismal", "distressed", "distressed", "concerning", "horrible", "horribly", "questionable"]
 
 
 def censor_phrase(email, word_or_phrase):
@@ -24,8 +27,6 @@ def censor_phrase(email, word_or_phrase):
 
 
 def censor_proprietary_terms(email):
-    proprietary_terms = ["she", "personality matrix", "sense of self",
-                        "self-preservation", "learning algorithm", "her", "herself"]
     for term in proprietary_terms:
         email = censor_phrase(email, term)
     return email
@@ -33,9 +34,8 @@ def censor_proprietary_terms(email):
 # print(censor_proprietary_terms(email_two))
 
 
+
 def censor_negative_words(email):
-    negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "alarmed", "out of control", "help", "unhappy", "bad", "upset",
-                        "awful", "broken", "damage", "damaging", "dismal", "distressed", "distressed", "concerning", "horrible", "horribly", "questionable"]
     if sum(email.count(word) for word in negative_words) > 1:
         for word in negative_words:
             email = censor_phrase(email, word)
@@ -69,7 +69,6 @@ def censor_all(email):
                 else:
                     new_paragraph_list.append(((len(paragraph_list[index + 1]) - 1) * "█") + paragraph_list[index + 1][-1])
                 # We check if the previous word ends wiht or without punctuation, and censor it accordingly.
-                print(index)
                 if index == 0:
                     continue
                 elif paragraph_list[index - 1][-1].isalnum():
