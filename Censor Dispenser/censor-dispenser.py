@@ -47,28 +47,37 @@ def censor_negative_words(email):
 
 def censor_all(email):
     email = censor_negative_words(email)
-    email_list = email.split()
+    email_list = email.split("\n")
     new_email_list = []
-    for index, word in enumerate(email_list):
-        # If there is already a value in the new list, which is a censored one, we skip it:
-        try:
-            if new_email_list[index]:
-                continue
-        except:
-            new_email_list.append(word)
-    # We check if the word is censored or not:
-        if "█" in word:
-            # We check if the lenght of the word is the same wiht or without punctuation, and censor it accordingly.
-            if len(email_list[index + 1].strip(",.!?:;")) == len(email_list[index + 1]):
-                new_email_list.append(len(email_list[index + 1]) * "█")
-            else:
-                new_email_list.append(
-                    ((len(email_list[index + 1]) - 1) * "█") + email_list[index + 1][-1])
-            if len(email_list[index - 1].strip(",.!?:;")) == len(email_list[index - 1]):
-                new_email_list[index -1] = (len(email_list[index - 1]) * "█")
-            else:
-                new_email_list[index -1] = ((len(email_list[index - 1]) - 1)
-                                    * "█") + email_list[index - 1][-1]
-    return " ".join(new_email_list)
-
+    for paragraph in email_list:
+        paragraph_list = paragraph.split()
+        new_paragraph_list = []
+        for index, word in enumerate(paragraph_list):
+            # If there is already a value in the new list, which is a censored one, we skip it:
+            try:
+                if new_paragraph_list[index]:
+                    continue
+            except:
+                new_paragraph_list.append(word)
+            # We check if the word is censored or not:
+            if "█" in word and index < len(paragraph_list):
+                if index == len(paragraph_list) - 1:
+                    pass
+                # We check if the lenght of the next word is the same wiht or without punctuation, and censor it accordingly.
+                elif len(paragraph_list[index + 1].strip(",.!?:;")) == len(paragraph_list[index + 1]):
+                    new_paragraph_list.append(len(paragraph_list[index + 1]) * "█")
+                else:
+                    new_paragraph_list.append(((len(paragraph_list[index + 1]) - 1) * "█") + paragraph_list[index + 1][-1])
+                # We check if the lenght of the previous word is the same wiht or without punctuation, and censor it accordingly.
+                print(index)
+                if index == 0:
+                    continue
+                elif len(paragraph_list[index - 1].strip(",.!?:;")) == len(paragraph_list[index - 1]):
+                    new_paragraph_list[index - 1] = (len(paragraph_list[index - 1]) * "█")
+                else: 
+                    new_paragraph_list[index - 1] = ((len(paragraph_list[index - 1]) - 1) * "█") + paragraph_list[index - 1][-1]
+        new_paragraph = " ".join(new_paragraph_list)         
+        new_email_list.append(new_paragraph)
+    return "\n".join(new_email_list)
+    
 print(censor_all(email_four))
