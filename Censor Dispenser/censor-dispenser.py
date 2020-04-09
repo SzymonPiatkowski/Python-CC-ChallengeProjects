@@ -39,7 +39,7 @@ def censor_negative_words(email):
     if sum(email.count(word) for word in negative_words) > 1:
         for word in negative_words:
             email = censor_phrase(email, word)
-            email = censor_proprietary_terms(email)
+    email = censor_proprietary_terms(email)
     return email
 
 # print(censor_negative_words(email_three))
@@ -63,16 +63,16 @@ def censor_all(email):
             if "█" in word and index < len(paragraph_list):
                 if index == len(paragraph_list) - 1:
                     pass
-                # We check if the lenght of the next word is the same wiht or without punctuation, and censor it accordingly.
-                elif len(paragraph_list[index + 1].strip(",.!?:;")) == len(paragraph_list[index + 1]):
+                # We check if the next word ends wiht or without punctuation, and censor it accordingly.
+                elif paragraph_list[index + 1][-1].isalnum():
                     new_paragraph_list.append(len(paragraph_list[index + 1]) * "█")
                 else:
                     new_paragraph_list.append(((len(paragraph_list[index + 1]) - 1) * "█") + paragraph_list[index + 1][-1])
-                # We check if the lenght of the previous word is the same wiht or without punctuation, and censor it accordingly.
+                # We check if the previous word ends wiht or without punctuation, and censor it accordingly.
                 print(index)
                 if index == 0:
                     continue
-                elif len(paragraph_list[index - 1].strip(",.!?:;")) == len(paragraph_list[index - 1]):
+                elif paragraph_list[index - 1][-1].isalnum():
                     new_paragraph_list[index - 1] = (len(paragraph_list[index - 1]) * "█")
                 else: 
                     new_paragraph_list[index - 1] = ((len(paragraph_list[index - 1]) - 1) * "█") + paragraph_list[index - 1][-1]
